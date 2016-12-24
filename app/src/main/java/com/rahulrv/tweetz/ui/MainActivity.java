@@ -14,6 +14,7 @@ import com.rahulrv.tweetz.R;
  */
 public class MainActivity extends AppCompatActivity {
 
+    String abc = "string";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
