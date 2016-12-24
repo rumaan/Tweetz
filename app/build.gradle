@@ -10,6 +10,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField 'String', 'END_POINT', '"https://api.twitter.com/1.1/"'
+        buildConfigField 'String', 'CONSUMER_KEY', '"mShwcGoNvsRzhiGa4xa5DKdLJ"'
+        buildConfigField 'String', 'CONSUMER_SECRET', '"JmrU0g0au0OxWPkjbnBvwjzLZfe1Xav7DrNlAOYa6Xqd2VnpuJ"'
     }
     buildTypes {
         release {
@@ -45,6 +49,10 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.4.5'
     provided 'com.ryanharter.auto.value:auto-value-gson:0.4.5'
+
+    /* Dagger */
+    compile 'com.google.dagger:dagger:2.8'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
 
     testCompile 'junit:junit:4.12'
 }
