@@ -9,8 +9,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- *
- *
+ * Interceptor for Retrofit to add auth key to header
  */
 
 public class RetrofitInterceptor implements Interceptor {
