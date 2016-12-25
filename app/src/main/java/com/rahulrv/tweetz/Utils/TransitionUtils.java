@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rahulrv.tweetz.Utils;
+package com.rahulrv.tweetz.utils;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;

@@ -12,8 +12,8 @@ import android.widget.SearchView;
 
 import com.rahulrv.tweetz.MyApplication;
 import com.rahulrv.tweetz.R;
-import com.rahulrv.tweetz.Utils.ImeUtils;
-import com.rahulrv.tweetz.Utils.TransitionUtils;
+import com.rahulrv.tweetz.utils.ImeUtils;
+import com.rahulrv.tweetz.utils.TransitionUtils;
 import com.rahulrv.tweetz.api.TwitterApi;
 import com.rahulrv.tweetz.ui.transitions.CircularReveal;
 

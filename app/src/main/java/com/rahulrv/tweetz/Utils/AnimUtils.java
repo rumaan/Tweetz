@@ -1,4 +1,4 @@
-package com.rahulrv.tweetz.Utils;
+package com.rahulrv.tweetz.utils;
 
 import android.animation.Animator;
 import android.animation.TimeInterpolator;
