@@ -1,4 +1,4 @@
-package com.rahulrv.tweetz.ui;
+package com.rahulrv.tweetz.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

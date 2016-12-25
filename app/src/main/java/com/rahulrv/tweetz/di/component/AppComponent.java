@@ -2,7 +2,7 @@ package com.rahulrv.tweetz.di.component;
 
 import com.rahulrv.tweetz.di.module.AppModule;
 import com.rahulrv.tweetz.di.module.TwitterModule;
-import com.rahulrv.tweetz.ui.MainActivity;
+import com.rahulrv.tweetz.ui.activities.MainActivity;
 
 import javax.inject.Singleton;
 
