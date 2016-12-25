@@ -6,18 +6,26 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.TransitionSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 
+import com.rahulrv.tweetz.MyApplication;
 import com.rahulrv.tweetz.R;
 import com.rahulrv.tweetz.Utils.ImeUtils;
 import com.rahulrv.tweetz.Utils.TransitionUtils;
+import com.rahulrv.tweetz.api.TwitterApi;
 import com.rahulrv.tweetz.ui.transitions.CircularReveal;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import io.reactivex.schedulers.Schedulers;
+
 public class SearchActivity extends AppCompatActivity {
 
+    @Inject TwitterApi twitterApi;
     SearchView searchView;
 
     @Override
@@ -29,6 +37,14 @@ public class SearchActivity extends AppCompatActivity {
         setupTransitions();
         findViewById(R.id.searchback).setOnClickListener(view -> finishAfterTransition());
         searchView = (SearchView) findViewById(R.id.search_view);
+        ((MyApplication) getApplication()).getComponent().inject(this);
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        twitterApi.searchTweets("Main Applicaatoin").subscribeOn(Schedulers.computation()).subscribe(searchResponse -> {
+            Log.d("ss", "dd");
+        });
     }
 
     @Override

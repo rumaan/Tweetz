@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.rahulrv.tweetz.api.TwitterApi;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -37,9 +37,7 @@ public class MainActivity extends Activity {
 
     @Override protected void onStart() {
         super.onStart();
-        twitterApi.searchTweets("Main Applicaatoin").subscribeOn(Schedulers.computation()).subscribe(searchResponse -> {
-            Log.d("ss", "dd");
-        });
+        twitterApi.getTrends("2487956").subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe();
     }
 
     @Override
