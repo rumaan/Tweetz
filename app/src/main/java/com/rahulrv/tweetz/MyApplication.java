@@ -11,18 +11,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
 /**
- *
- *
+ * Main application class. Initializes dagger.
  */
 public class MyApplication extends Application {
 
@@ -51,7 +47,6 @@ public class MyApplication extends Application {
         String base64BearerToken = "Basic " + Base64.encodeToString(bearerToken.getBytes(), Base64.NO_WRAP);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8"), "grant_type=client_credentials");
 
-
         final Request request = new Request.Builder()
                 .url(BuildConfig.AUTH_END_POINT)
                 .post(requestBody)
@@ -61,21 +56,16 @@ public class MyApplication extends Application {
                 .header("Content-type", "application/x-www-form-urlencoded;charset=UTF-8")
                 .build();
 
-
         Observable.just(client.newCall(request))
                 .subscribeOn(Schedulers.computation())
-                .map(new Function<Call, String>() {
-                    @Override public String apply(Call call) throws Exception {
-                        String str = call.execute().body().string();
-                        JSONObject jsonObject = new JSONObject(str);
-                        return "Bearer " + jsonObject.getString("access_token");
-                    }
+                .map(call -> {
+                    String str = call.execute().body().string();
+                    JSONObject jsonObject = new JSONObject(str);
+                    return "Bearer " + jsonObject.getString("access_token");
                 })
-                .subscribe(new Consumer<String>() {
-            @Override public void accept(String s) throws Exception {
-                token = s;
-            }
-        });
+                .subscribe(s -> {
+                    token = s;
+                });
 
     }
 }
