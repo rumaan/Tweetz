@@ -1,4 +1,4 @@
-package com.rahulrv.tweetz.model;
+package com.rahulrv.tweetz.model.search;
 
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;

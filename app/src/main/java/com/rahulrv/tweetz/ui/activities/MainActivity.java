@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +38,15 @@ public class MainActivity extends Activity {
 
     @Override protected void onStart() {
         super.onStart();
-        twitterApi.getTrends("2487956").subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe();
+        twitterApi.getTrends("2487956")
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(trendsResponses -> {
+                    Log.d("gg","dd");
+                },throwable -> {
+                    Log.d("gg","dd");
+                });
+
     }
 
     @Override
