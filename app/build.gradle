@@ -13,8 +13,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField 'String', 'END_POINT', '"https://api.twitter.com/1.1/"'
-        buildConfigField 'String', 'CONSUMER_KEY', '"mShwcGoNvsRzhiGa4xa5DKdLJ"'
-        buildConfigField 'String', 'CONSUMER_SECRET', '"JmrU0g0au0OxWPkjbnBvwjzLZfe1Xav7DrNlAOYa6Xqd2VnpuJ"'
+        buildConfigField 'String', 'AUTH_END_POINT', '"https://api.twitter.com/oauth2/token"'
+        buildConfigField 'String', 'CONSUMER_KEY', '"xhBLIT2ZAdutz4aI9rwIjVEuy"'
+        buildConfigField 'String', 'CONSUMER_SECRET', '"B6sZAkPQj6F6RDXicWLtv75mn4miBXLpdIZ34tDJ7HTkWqcfOJ"'
+        buildConfigField 'String', 'AUTH_TOKEN', '"2893921857-wZ7pQxmeEkT3Gx1nO98aT0sE97FHyvqCNzJMQKB"'
     }
 
     buildTypes {

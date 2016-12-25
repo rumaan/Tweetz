@@ -3,6 +3,7 @@ package com.rahulrv.tweetz.di.module;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rahulrv.tweetz.BuildConfig;
+import com.rahulrv.tweetz.api.RetrofitInterceptor;
 
 import javax.inject.Singleton;
 
@@ -29,7 +30,7 @@ public class AppModule {
     @Provides
     @Singleton
     OkHttpClient provideOkHttpClient() {
-        return new OkHttpClient();
+        return new OkHttpClient.Builder().addInterceptor(new RetrofitInterceptor()).build();
     }
 
     @Provides
