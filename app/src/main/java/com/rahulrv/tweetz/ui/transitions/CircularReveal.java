@@ -30,6 +30,7 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 
 import com.rahulrv.tweetz.R;
+import com.rahulrv.tweetz.Utils.AnimUtils;
 
 /**
  * A transition which shows/hides a view with a circular clipping mask. Callers should provide the
