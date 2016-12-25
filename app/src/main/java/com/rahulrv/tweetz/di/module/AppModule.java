@@ -2,7 +2,9 @@ package com.rahulrv.tweetz.di.module;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.rahulrv.tweetz.BuildConfig;
+import com.rahulrv.tweetz.api.AutoValueGsonFactory;
 import com.rahulrv.tweetz.api.RetrofitInterceptor;
 
 import javax.inject.Singleton;
@@ -23,8 +25,7 @@ public class AppModule {
     @Provides
     @Singleton
     Gson provideGson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        return gsonBuilder.create();
+        return new GsonBuilder().serializeNulls().registerTypeAdapterFactory(AutoValueGsonFactory.create()).create();
     }
 
     @Provides
@@ -35,11 +36,18 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
+    GsonConverterFactory provideGsonConverterFactory(Gson gson) {
+        return GsonConverterFactory.create(gson);
+    }
+
+    @Provides
+    @Singleton
+    Retrofit provideRetrofit(OkHttpClient okHttpClient, GsonConverterFactory factory) {
         return new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(BuildConfig.END_POINT)
                 .client(okHttpClient)
+                .addConverterFactory(factory)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 }
