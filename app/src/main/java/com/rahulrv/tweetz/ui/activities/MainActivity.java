@@ -1,11 +1,8 @@
 package com.rahulrv.tweetz.ui.activities;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,52 +11,49 @@ import com.rahulrv.tweetz.MyApplication;
 import com.rahulrv.tweetz.R;
 import com.rahulrv.tweetz.api.TwitterApi;
 import com.rahulrv.tweetz.databinding.ActivityMainBinding;
+import com.rahulrv.tweetz.model.trends.TrendsItem;
 import com.rahulrv.tweetz.ui.TrendsAdapter;
+import com.rahulrv.tweetz.viewmodel.MainActivityView;
+import com.rahulrv.tweetz.viewmodel.MainActivityViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Main launcher activity of the app.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivityViewModel> implements MainActivityView {
 
     @Inject TwitterApi twitterApi;
-
-    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        bindView(R.layout.activity_main);
         setActionBar(binding.toolbar);
-        ((MyApplication) getApplication()).getComponent().inject(this);
+        MyApplication.getComponent().inject(this);
         binding.setIsLoading(true);
+        // TODO Inject using Dagger 2
+        viewModel = new MainActivityViewModel();
+        viewModel.attach(this);
     }
 
     @Override protected void onStart() {
         super.onStart();
-        twitterApi.getTrends("2487956")
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(trendsResponses -> trendsResponses.get(0))
-                .subscribe(trendsResponse -> {
-                    Log.d("gg", "dd");
-                    binding.setIsLoading(false);
-                    TrendsAdapter trendsAdapter = new TrendsAdapter(trendsResponse.trends());
-                    binding.trends.setAdapter(trendsAdapter);
-                }, throwable -> {
-                    Log.d("gg", "dd");
-                });
-
+        viewModel.updateData();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home, menu);
         return true;
+    }
+
+    @Override public void load(List<TrendsItem> items) {
+        binding.setIsLoading(false);
+        TrendsAdapter trendsAdapter = new TrendsAdapter(items);
+        binding.trends.setAdapter(trendsAdapter);
     }
 
     @Override

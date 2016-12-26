@@ -20,4 +20,5 @@ public class TwitterModule {
     TwitterApi provideRetrofit(Retrofit retrofit) {
         return retrofit.create(TwitterApi.class);
     }
+
 }

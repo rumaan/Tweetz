@@ -13,7 +13,7 @@ import com.rahulrv.tweetz.di.module.TwitterModule;
  */
 public class MyApplication extends Application {
 
-    private AppComponent component;
+    private static  AppComponent component;
     public static String token = "";
 
     @Override public void onCreate() {
@@ -25,7 +25,7 @@ public class MyApplication extends Application {
                 .build();
     }
 
-    public AppComponent getComponent() {
+    public static AppComponent getComponent() {
         return component;
     }
 }

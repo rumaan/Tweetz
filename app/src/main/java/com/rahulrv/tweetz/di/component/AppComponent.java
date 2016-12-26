@@ -6,6 +6,7 @@ import com.rahulrv.tweetz.di.module.TwitterModule;
 import com.rahulrv.tweetz.ui.activities.MainActivity;
 import com.rahulrv.tweetz.ui.activities.SearchActivity;
 import com.rahulrv.tweetz.ui.activities.SplashActivity;
+import com.rahulrv.tweetz.viewmodel.MainActivityViewModel;
 
 import javax.inject.Singleton;
 
@@ -24,4 +25,6 @@ public interface AppComponent {
     void inject(MainActivity activity);
 
     void inject(SearchActivity activity);
+
+    void inject(MainActivityViewModel activity);
 }

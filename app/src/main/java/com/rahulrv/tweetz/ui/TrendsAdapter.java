@@ -2,6 +2,9 @@ package com.rahulrv.tweetz.ui;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -35,6 +38,14 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.TrendsView
 
     @Override public void onBindViewHolder(TrendsViewHolder holder, int position) {
         holder.update(trendsItems.get(position));
+        holder.itemView.setOnClickListener(view -> {
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            CustomTabsIntent customTabsIntent = builder.build();
+            builder.setToolbarColor(ContextCompat.getColor(view.getContext(), R.color.background_dark));
+//            builder.setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left);
+//            builder.setExitAnimations(this, R.anim.slide_in_left, R.anim.slide_out_right);
+            customTabsIntent.launchUrl(view.getContext(), Uri.parse(trendsItems.get(position).url()));
+        });
     }
 
     @Override public int getItemCount() {
