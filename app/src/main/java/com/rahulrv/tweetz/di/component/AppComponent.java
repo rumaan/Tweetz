@@ -1,9 +1,11 @@
 package com.rahulrv.tweetz.di.component;
 
 import com.rahulrv.tweetz.di.module.AppModule;
+import com.rahulrv.tweetz.di.module.NetworkModule;
 import com.rahulrv.tweetz.di.module.TwitterModule;
 import com.rahulrv.tweetz.ui.activities.MainActivity;
 import com.rahulrv.tweetz.ui.activities.SearchActivity;
+import com.rahulrv.tweetz.ui.activities.SplashActivity;
 
 import javax.inject.Singleton;
 
@@ -14,8 +16,10 @@ import dagger.Component;
  *
  */
 @Singleton
-@Component(modules = {AppModule.class, TwitterModule.class})
+@Component(modules = {AppModule.class, NetworkModule.class, TwitterModule.class})
 public interface AppComponent {
+
+    void inject(SplashActivity activity);
 
     void inject(MainActivity activity);
 

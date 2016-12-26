@@ -1,6 +1,7 @@
 package com.rahulrv.tweetz.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -9,6 +10,8 @@ import com.rahulrv.tweetz.BuildConfig;
 import com.rahulrv.tweetz.MyApplication;
 
 import org.json.JSONObject;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -20,13 +23,23 @@ import okhttp3.RequestBody;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private final static String AUTH_TOKEN = "auth_token";
+    @Inject SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MyApplication) getApplication()).getComponent().inject(this);
         getToken();
     }
 
     public void getToken() {
+        if (preferences.contains(AUTH_TOKEN)) {
+            MyApplication.token = preferences.getString(AUTH_TOKEN, "");
+            startActivity(new Intent(this, MainActivity.class));
+            return;
+        }
+
         OkHttpClient client = new OkHttpClient();
         String bearerToken = BuildConfig.CONSUMER_KEY +
                 ":" + BuildConfig.CONSUMER_SECRET;
@@ -53,9 +66,9 @@ public class SplashActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
                     MyApplication.token = s;
+                    preferences.edit().putString(AUTH_TOKEN, s).apply();
                     startActivity(new Intent(this, MainActivity.class));
                 });
-
     }
 
     @Override protected void onPause() {

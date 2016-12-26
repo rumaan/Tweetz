@@ -27,6 +27,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends Activity {
 
     @Inject TwitterApi twitterApi;
+
     ActivityMainBinding binding;
 
     @Override
