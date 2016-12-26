@@ -1,15 +1,13 @@
 package com.rahulrv.tweetz.viewmodel;
 
-import io.reactivex.Observer;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 
 /**
  *
  *
  */
 
-public class BaseViewModel<T extends IView, B> implements Observer<B> {
+public class BaseViewModel<T extends IView> {
 
     protected CompositeDisposable compositeDisposable;
     T view;
@@ -26,19 +24,4 @@ public class BaseViewModel<T extends IView, B> implements Observer<B> {
         compositeDisposable.clear();
     }
 
-    @Override public void onSubscribe(Disposable d) {
-
-    }
-
-    @Override public void onNext(B value) {
-
-    }
-
-    @Override public void onError(Throwable e) {
-        view.error();
-    }
-
-    @Override public void onComplete() {
-
-    }
 }

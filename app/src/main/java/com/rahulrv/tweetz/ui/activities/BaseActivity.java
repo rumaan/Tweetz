@@ -14,7 +14,7 @@ import com.rahulrv.tweetz.viewmodel.IView;
  *
  */
 
-public class BaseActivity<B extends ViewDataBinding, T extends BaseViewModel> extends Activity implements IView {
+public abstract class BaseActivity<B extends ViewDataBinding, T extends BaseViewModel> extends Activity implements IView {
 
     protected T viewModel;
     B binding;
@@ -35,7 +35,7 @@ public class BaseActivity<B extends ViewDataBinding, T extends BaseViewModel> ex
         viewModel.detach();
     }
 
-    @Override public void error() {
+    @Override public void error(Throwable e) {
 
     }
 }

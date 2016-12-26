@@ -5,7 +5,7 @@ package com.rahulrv.tweetz.viewmodel;
  *
  */
 
-public interface ViewModel<V extends IView> {
+public interface IViewModel<V extends IView> {
 
     void attach(V view);
 

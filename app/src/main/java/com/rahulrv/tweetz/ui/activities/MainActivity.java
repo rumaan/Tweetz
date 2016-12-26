@@ -41,7 +41,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
 
     @Override protected void onStart() {
         super.onStart();
-        viewModel.updateData();
+        // hard code san francisco for now
+        viewModel.fetchTrends("2487956");
     }
 
     @Override
