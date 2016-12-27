@@ -26,7 +26,7 @@ public abstract class BaseActivity<B extends ViewDataBinding, T extends BaseView
         }
     }
 
-    protected void bindView(int layout) {
+    protected final void bindView(int layout) {
         binding = DataBindingUtil.setContentView(this, layout);
     }
 

@@ -3,8 +3,6 @@ package com.rahulrv.tweetz.ui.activities;
 import android.app.SharedElementCallback;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
@@ -12,39 +10,60 @@ import android.widget.SearchView;
 
 import com.rahulrv.tweetz.MyApplication;
 import com.rahulrv.tweetz.R;
+import com.rahulrv.tweetz.api.TwitterApi;
+import com.rahulrv.tweetz.databinding.ActivitySearchBinding;
+import com.rahulrv.tweetz.ui.transitions.CircularReveal;
 import com.rahulrv.tweetz.utils.ImeUtils;
 import com.rahulrv.tweetz.utils.TransitionUtils;
-import com.rahulrv.tweetz.api.TwitterApi;
-import com.rahulrv.tweetz.ui.transitions.CircularReveal;
+import com.rahulrv.tweetz.viewmodel.SearchActivityViewModel;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchActivityViewModel> {
 
     @Inject TwitterApi twitterApi;
-    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        bindView(R.layout.activity_search);
         setupTransitions();
-        findViewById(R.id.searchback).setOnClickListener(view -> finishAfterTransition());
-        searchView = (SearchView) findViewById(R.id.search_view);
-        ((MyApplication) getApplication()).getComponent().inject(this);
+        binding.searchback.setOnClickListener(view -> finishAfterTransition());
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override public boolean onQueryTextSubmit(String s) {
+                twitterApi.searchTweets(s)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(searchResponse -> {
+                            Log.d("ss", s);
+                        });
+                return true;
+            }
+
+            @Override public boolean onQueryTextChange(String s) {
+                if (s.length() < 3) {
+                    return false;
+                }
+                twitterApi.searchTweets(s)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(searchResponse -> {
+                            Log.d("ss", s);
+                        });
+                return true;
+            }
+        });
+        MyApplication.getComponent().inject(this);
+        viewModel = new SearchActivityViewModel();
     }
 
     @Override protected void onStart() {
         super.onStart();
-        twitterApi.searchTweets("Main Applicaatoin").subscribeOn(Schedulers.computation()).subscribe(searchResponse -> {
-            Log.d("ss", "dd");
-        });
     }
 
     @Override
@@ -57,8 +76,8 @@ public class SearchActivity extends AppCompatActivity {
     @Override public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
         // focus the search view once the enter transition finishes
-        searchView.requestFocus();
-        ImeUtils.showIme(searchView);
+        binding.searchView.requestFocus();
+        ImeUtils.showIme(binding.searchView);
     }
 
     private void setupTransitions() {

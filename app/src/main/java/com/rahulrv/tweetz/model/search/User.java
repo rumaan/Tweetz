@@ -31,8 +31,8 @@ public abstract class User{
 	@SerializedName("is_translator")
 	public abstract boolean isTranslator();
 
-	@SerializedName("profile_background_image_url_https")
-	public abstract String profileBackgroundImageUrlHttps();
+//	@SerializedName("profile_background_image_url_https")
+//	public abstract String profileBackgroundImageUrlHttps();
 
 	@SerializedName("protected")
 	public abstract boolean jsonMemberProtected();
