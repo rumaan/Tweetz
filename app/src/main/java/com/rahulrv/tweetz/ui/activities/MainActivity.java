@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         MyApplication.getComponent().inject(this);
         binding.setIsLoading(true);
         // TODO Inject using Dagger 2
-        viewModel = new MainActivityViewModel();
+        viewModel = new MainActivityViewModel(twitterApi);
         viewModel.attach(this);
     }
 

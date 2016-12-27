@@ -1,9 +1,6 @@
 package com.rahulrv.tweetz.viewmodel;
 
-import com.rahulrv.tweetz.MyApplication;
 import com.rahulrv.tweetz.api.TwitterApi;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -14,10 +11,10 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivityViewModel extends BaseViewModel<MainActivityView> {
 
-    @Inject TwitterApi twitterApi;
+    TwitterApi twitterApi;
 
-    public MainActivityViewModel() {
-        MyApplication.getComponent().inject(this);
+    public MainActivityViewModel(TwitterApi twitterApi) {
+        this.twitterApi = twitterApi;
     }
 
     public void fetchTrends(String locationId) {
@@ -25,8 +22,7 @@ public class MainActivityViewModel extends BaseViewModel<MainActivityView> {
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(trendsResponses -> trendsResponses.get(0))
-                .subscribe(trendsResponse -> {
-                    view.load(trendsResponse.trends());
-                }, throwable -> view.error(throwable)));
+                .subscribe(trendsResponse -> view.load(trendsResponse.trends()),
+                        throwable -> view.error(throwable)));
     }
 }
