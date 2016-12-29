@@ -91,7 +91,9 @@ public class CircularReveal extends Visibility {
     public Animator onAppear(ViewGroup sceneRoot, View view,
                              TransitionValues startValues,
                              TransitionValues endValues) {
-        if (view == null || view.getHeight() == 0 || view.getWidth() == 0) return null;
+        if (view == null || view.getHeight() == 0 || view.getWidth() == 0) {
+            return null;
+        }
         ensureCenterPoint(sceneRoot, view);
         return new AnimUtils.NoPauseAnimator(ViewAnimationUtils.createCircularReveal(
                 view,
@@ -105,7 +107,9 @@ public class CircularReveal extends Visibility {
     public Animator onDisappear(ViewGroup sceneRoot, View view,
                                 TransitionValues startValues,
                                 TransitionValues endValues) {
-        if (view == null || view.getHeight() == 0 || view.getWidth() == 0) return null;
+        if (view == null || view.getHeight() == 0 || view.getWidth() == 0) {
+            return null;
+        }
         ensureCenterPoint(sceneRoot, view);
         return new AnimUtils.NoPauseAnimator(ViewAnimationUtils.createCircularReveal(
                 view,
@@ -116,7 +120,9 @@ public class CircularReveal extends Visibility {
     }
 
     private void ensureCenterPoint(ViewGroup sceneRoot, View view) {
-        if (center != null) return;
+        if (center != null) {
+            return;
+        }
         if (centerOn != null || centerOnId != View.NO_ID) {
             View source;
             if (centerOn != null) {

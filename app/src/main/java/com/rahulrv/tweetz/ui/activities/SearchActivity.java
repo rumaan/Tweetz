@@ -4,7 +4,6 @@ import android.app.SharedElementCallback;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.transition.TransitionSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 
@@ -12,36 +11,39 @@ import com.rahulrv.tweetz.MyApplication;
 import com.rahulrv.tweetz.R;
 import com.rahulrv.tweetz.api.TwitterApi;
 import com.rahulrv.tweetz.databinding.ActivitySearchBinding;
+import com.rahulrv.tweetz.model.search.StatusesItem;
+import com.rahulrv.tweetz.ui.SearchAdapter;
 import com.rahulrv.tweetz.ui.transitions.CircularReveal;
 import com.rahulrv.tweetz.utils.ImeUtils;
 import com.rahulrv.tweetz.utils.TransitionUtils;
+import com.rahulrv.tweetz.viewmodel.SearchActivityView;
 import com.rahulrv.tweetz.viewmodel.SearchActivityViewModel;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
-public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchActivityViewModel> {
+public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchActivityViewModel> implements SearchActivityView {
 
     @Inject TwitterApi twitterApi;
+
+    private SearchAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyApplication.getComponent().inject(this);
         bindView(R.layout.activity_search);
         setupTransitions();
         binding.searchback.setOnClickListener(view -> finishAfterTransition());
+        adapter = new SearchAdapter(Collections.emptyList());
+        binding.searchResults.setAdapter(adapter);
+        viewModel = new SearchActivityViewModel(twitterApi);
+        viewModel.attach(this);
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override public boolean onQueryTextSubmit(String s) {
-                twitterApi.searchTweets(s)
-                        .subscribeOn(Schedulers.computation())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(searchResponse -> {
-                            Log.d("ss", s);
-                        });
+                viewModel.searchTweets(s);
                 return true;
             }
 
@@ -49,17 +51,10 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchAc
                 if (s.length() < 3) {
                     return false;
                 }
-                twitterApi.searchTweets(s)
-                        .subscribeOn(Schedulers.computation())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(searchResponse -> {
-                            Log.d("ss", s);
-                        });
+                viewModel.searchTweets(s);
                 return true;
             }
         });
-        MyApplication.getComponent().inject(this);
-        viewModel = new SearchActivityViewModel();
     }
 
     @Override protected void onStart() {
@@ -102,5 +97,16 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchAc
                 }
             }
         });
+    }
+
+    @Override public void showSearchResult(List<StatusesItem> statusesItems) {
+        if (statusesItems.isEmpty()) {
+            binding.searchResults.setVisibility(View.GONE);
+            binding.stubNoSearchResults.setVisibility(View.VISIBLE);
+        } else {
+            binding.searchResults.setVisibility(View.VISIBLE);
+            binding.stubNoSearchResults.setVisibility(View.GONE);
+        }
+        adapter.setStatusesItems(statusesItems);
     }
 }

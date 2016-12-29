@@ -14,7 +14,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <FrameLayout
         android:id="@+id/container"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,7 +42,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/background_dark"/>
 
-            <SearchView
+                <SearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -73,7 +73,7 @@
         <FrameLayout
             android:id="@+id/results_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="?android:actionBarSize"
             android:background="@color/background_dark"
             android:elevation="@dimen/z_app_bar">
@@ -89,8 +89,14 @@
                 android:paddingTop="@dimen/spacing_huge"
                 android:visibility="gone"/>
 
-            <ViewStub
+            <TextView
                 android:id="@+id/stub_no_search_results"
+                android:text="@string/no_results"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:textColor="@color/grey_200"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
             />
@@ -102,6 +108,7 @@
                 android:clipToPadding="false"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 android:visibility="gone"/>
 
             <View
