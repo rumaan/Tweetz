@@ -38,4 +38,8 @@ public abstract class BaseActivity<B extends ViewDataBinding, T extends BaseView
     @Override public void error(Throwable e) {
 
     }
+
+    @Override public void error() {
+
+    }
 }
