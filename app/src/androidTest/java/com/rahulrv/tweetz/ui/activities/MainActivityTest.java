@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 
 /**
  *
@@ -33,6 +34,14 @@ public class MainActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.trends)).perform(RecyclerViewActions.scrollToPosition(2));
         Espresso.onView(ViewMatchers.withText(R.string.app_name)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withId(R.id.menu_search)).perform(click());
+        Espresso.onView(ViewMatchers.withId(R.id.search_view)).perform(typeText("y"))
+                .perform(typeText("e"))
+                .perform(typeText("a"))
+                .perform(typeText("r"))
+                .perform(typeText(" 2"))
+                .perform(typeText("0"))
+                .perform(typeText("16"));
+        Espresso.onView(ViewMatchers.withId(R.id.search_results)).perform(RecyclerViewActions.scrollToPosition(2));
     }
 
 }
