@@ -2,6 +2,7 @@ package com.rahulrv.tweetz.viewmodel;
 
 import com.rahulrv.tweetz.api.TwitterApi;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -10,7 +11,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivityViewModel extends BaseViewModel<MainActivityView> {
 
-    TwitterApi twitterApi;
+    private TwitterApi twitterApi;
 
     public MainActivityViewModel(TwitterApi twitterApi) {
         this.twitterApi = twitterApi;
@@ -20,6 +21,7 @@ public class MainActivityViewModel extends BaseViewModel<MainActivityView> {
         compositeDisposable.add(twitterApi.getTrends(locationId)
                 .subscribeOn(Schedulers.computation())
                 .map(trendsResponses -> trendsResponses.get(0))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(trendsResponse -> view.load(trendsResponse.trends()),
                         throwable -> view.error(throwable)));
     }

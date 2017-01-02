@@ -13,7 +13,6 @@ import com.rahulrv.tweetz.R;
 import com.rahulrv.tweetz.databinding.TrendsRowLayoutBinding;
 import com.rahulrv.tweetz.model.trends.TrendsItem;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,11 +22,7 @@ import java.util.List;
 
 public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.TrendsViewHolder> {
 
-    private List<TrendsItem> trendsItems = Collections.emptyList();
-
-    public TrendsAdapter(final List<TrendsItem> items) {
-        this.trendsItems = items;
-    }
+    private List<TrendsItem> trendsItems;
 
     @Override
     public TrendsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -50,6 +45,12 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.TrendsView
 
     @Override public int getItemCount() {
         return trendsItems.size();
+    }
+
+
+    public void setTrendsItems(List<TrendsItem> trendsItems) {
+        this.trendsItems = trendsItems;
+        notifyDataSetChanged();
     }
 
     public static class TrendsViewHolder extends RecyclerView.ViewHolder {

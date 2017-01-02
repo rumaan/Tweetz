@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.widget.Toast;
 
 import com.rahulrv.tweetz.viewmodel.BaseViewModel;
 import com.rahulrv.tweetz.viewmodel.IView;
@@ -32,14 +33,19 @@ public abstract class BaseActivity<B extends ViewDataBinding, T extends BaseView
 
     @Override protected void onStop() {
         super.onStop();
+        viewModel.clearSubscriptions();
+    }gi
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
         viewModel.detach();
     }
 
     @Override public void error(Throwable e) {
-
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override public void error() {
-
+        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
     }
 }

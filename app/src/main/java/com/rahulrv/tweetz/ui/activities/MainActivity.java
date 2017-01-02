@@ -26,6 +26,7 @@ import javax.inject.Inject;
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivityViewModel> implements MainActivityView {
 
     @Inject TwitterApi twitterApi;
+    TrendsAdapter trendsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         // TODO Inject using Dagger 2
         viewModel = new MainActivityViewModel(twitterApi);
         viewModel.attach(this);
+        trendsAdapter = new TrendsAdapter();
+        binding.trends.setAdapter(trendsAdapter);
     }
 
     @Override protected void onStart() {
@@ -53,8 +56,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
 
     @Override public void load(List<TrendsItem> items) {
         binding.setIsLoading(false);
-        TrendsAdapter trendsAdapter = new TrendsAdapter(items);
-        binding.trends.setAdapter(trendsAdapter);
+        trendsAdapter.setTrendsItems(items);
     }
 
     @Override

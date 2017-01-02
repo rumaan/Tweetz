@@ -13,10 +13,7 @@
         android:theme="@style/Tweetz">
         <activity
             android:name=".ui.activities.MainActivity"
-            android:theme="@style/Tweetz.Home"/>
-        <activity
-            android:name=".ui.activities.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/Tweetz.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

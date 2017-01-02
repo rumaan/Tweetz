@@ -14,7 +14,6 @@ import com.rahulrv.tweetz.di.module.TwitterModule;
 public class MyApplication extends Application {
 
     private static  AppComponent component;
-    public static String token = "";
 
     @Override public void onCreate() {
         super.onCreate();

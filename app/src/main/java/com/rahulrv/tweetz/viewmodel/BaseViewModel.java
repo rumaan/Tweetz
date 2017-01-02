@@ -21,6 +21,10 @@ public class BaseViewModel<T extends IView> {
     }
 
     public void detach() {
+        view = null;
+    }
+
+    public void clearSubscriptions() {
         compositeDisposable.clear();
     }
 
