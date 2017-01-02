@@ -3,8 +3,6 @@ package com.rahulrv.tweetz.ui.activities;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.widget.Toast;
 
 import com.rahulrv.tweetz.viewmodel.BaseViewModel;
@@ -20,21 +18,21 @@ public abstract class BaseActivity<B extends ViewDataBinding, T extends BaseView
     protected T viewModel;
     B binding;
 
-    @Override public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    /**
+     * ViewModel must be initialized before bindView() is called
+     * @param layout layout for the activity
+     */
+    protected final void bindView(int layout) {
         if (viewModel == null) {
             throw new IllegalStateException("viewModel must not be null and should be injected via activityComponent().inject(this)");
         }
-    }
-
-    protected final void bindView(int layout) {
         binding = DataBindingUtil.setContentView(this, layout);
     }
 
     @Override protected void onStop() {
         super.onStop();
         viewModel.clearSubscriptions();
-    }gi
+    }
 
     @Override protected void onDestroy() {
         super.onDestroy();

@@ -26,18 +26,22 @@ import javax.inject.Inject;
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivityViewModel> implements MainActivityView {
 
     @Inject TwitterApi twitterApi;
-    TrendsAdapter trendsAdapter;
+
+    private TrendsAdapter trendsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bindView(R.layout.activity_main);
-        setActionBar(binding.toolbar);
         MyApplication.getComponent().inject(this);
-        binding.setIsLoading(true);
+
         // TODO Inject using Dagger 2
         viewModel = new MainActivityViewModel(twitterApi);
         viewModel.attach(this);
+
+        bindView(R.layout.activity_main);
+        setActionBar(binding.toolbar);
+        binding.setIsLoading(true);
+
         trendsAdapter = new TrendsAdapter();
         binding.trends.setAdapter(trendsAdapter);
     }

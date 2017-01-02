@@ -22,7 +22,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 public class MainActivityTest {
 
     @Rule
-    public ActivityTestRule<SplashActivity> rule = new ActivityTestRule<>(SplashActivity.class, true, false);
+    public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class, true, false);
 
     @Before
     public void setUp() throws Exception {
@@ -41,7 +41,7 @@ public class MainActivityTest {
                 .perform(typeText(" 2"))
                 .perform(typeText("0"))
                 .perform(typeText("16"));
-        Espresso.onView(ViewMatchers.withId(R.id.search_results)).perform(RecyclerViewActions.scrollToPosition(2));
+       // Espresso.onView(ViewMatchers.withId(R.id.search_results)).perform(RecyclerViewActions.scrollToPosition(2));
     }
 
 }

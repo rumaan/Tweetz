@@ -34,13 +34,17 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchAc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MyApplication.getComponent().inject(this);
+
+        // TODO Inject using Dagger2
+        viewModel = new SearchActivityViewModel(twitterApi);
+        viewModel.attach(this);
+
         bindView(R.layout.activity_search);
         setupTransitions();
         binding.searchback.setOnClickListener(view -> finishAfterTransition());
         adapter = new SearchAdapter(Collections.emptyList());
         binding.searchResults.setAdapter(adapter);
-        viewModel = new SearchActivityViewModel(twitterApi);
-        viewModel.attach(this);
+
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override public boolean onQueryTextSubmit(String s) {
                 viewModel.searchTweets(s);
