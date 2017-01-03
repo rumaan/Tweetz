@@ -22,6 +22,8 @@ import java.util.List;
 import io.reactivex.Observable;
 
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  *
@@ -65,16 +67,14 @@ public class MainActivityViewModelTest {
         });
 
         doReturn(Observable.just(countryList)).when(twitterApi).getTrends(SF_LOC_ID);
-        //TODO FIX IT
-        //mainActivityViewModel.fetchTrends(SF_LOC_ID);
-        //verify(mainActivityView,times(1)).load(countryList.get(0).trends());
+        mainActivityViewModel.fetchTrends(SF_LOC_ID);
+        verify(mainActivityView,times(1)).load(countryList.get(0).trends());
     }
 
     @Test public void error_loadTrends() {
         Throwable throwable = new Throwable();
         doReturn(Observable.error(throwable)).when(twitterApi).getTrends(SF_LOC_ID);
-        //TODO FIX IT
-        //mainActivityViewModel.fetchTrends(SF_LOC_ID);
-        //verify(mainActivityView,times(1)).error(throwable);
+        mainActivityViewModel.fetchTrends(SF_LOC_ID);
+        verify(mainActivityView,times(1)).error(throwable);
     }
 }
