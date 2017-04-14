@@ -1,14 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
-apply plugin: 'me.tatarka.retrolambda'
 
 buildscript {
     repositories {
         mavenCentral()
-    }
-
-    dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.4.0'
     }
 }
 
@@ -19,7 +14,7 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "com.rahulrv.tweetz"
         minSdkVersion 21

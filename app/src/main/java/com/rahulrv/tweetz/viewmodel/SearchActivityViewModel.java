@@ -17,8 +17,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SearchActivityViewModel extends BaseViewModel<SearchActivityView> {
 
-    TwitterApi twitterApi;
-    Disposable searchDisposable;
+    private TwitterApi twitterApi;
+    private Disposable searchDisposable;
 
     public SearchActivityViewModel(TwitterApi twitterApi) {
         this.twitterApi = twitterApi;
